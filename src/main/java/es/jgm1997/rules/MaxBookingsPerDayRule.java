@@ -12,6 +12,6 @@ public record MaxBookingsPerDayRule(int maxBookingsPerDay) implements Rule {
 
     @Override
     public boolean isValid(Booking booking, Resource resource) {
-        return true;
+        throw new UnsupportedOperationException("MaxBookingsPerDayRule.isValid not implemented: requires access to bookings repository to count bookings per day");
     }
 }

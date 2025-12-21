@@ -12,7 +12,7 @@ public record Schedule(
             throw new IllegalArgumentException("start and end time can't be null");
         }
         if (!end.isAfter(start)) {
-            throw new IllegalArgumentException("start time must be after end time");
+            throw new IllegalArgumentException("End time must be after start time");
         }
         if (durationMinutes <= 0) {
             throw new IllegalArgumentException("duration minutes must be positive");

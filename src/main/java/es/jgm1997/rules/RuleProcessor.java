@@ -1,6 +1,8 @@
 package es.jgm1997.rules;
 
 public class RuleProcessor {
+    private RuleProcessor() { throw new IllegalStateException("Utility class"); }
+
     public static String describe(Rule rule) {
         return switch (rule) {
             case FixedScheduleRule fsr -> "Active from " + fsr.openingTime() + " to " + fsr.closingTime();

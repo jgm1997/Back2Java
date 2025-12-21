@@ -7,8 +7,12 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class RuleDemo {
+    private static final Logger LOGGER = Logger.getLogger(RuleDemo.class.getName());
+
     public static void main(String[] args) {
         var resource = new Resource(UUID.randomUUID(), "Demo resource 1", "DEMO RESOURCE", true);
         var booking = new Booking(
@@ -26,8 +30,8 @@ public class RuleDemo {
 
         for (Rule rule : rules) {
             boolean valid = rule.isValid(booking, resource);
-            System.out.println("Is booking valid? " + valid);
-            System.out.println("-----");
+            LOGGER.log(Level.INFO, "Is booking valid? {0}", valid);
+            LOGGER.info("-----");
         }
     }
 }
