@@ -5,14 +5,7 @@ import es.jgm1997.domain.Resource;
 
 import java.time.LocalTime;
 
-public final class FixedScheduleRule implements Rule {
-    private final LocalTime openingTime;
-    private final LocalTime closingTime;
-
-    public FixedScheduleRule(LocalTime openingTime, LocalTime closingTime) {
-        this.openingTime = openingTime;
-        this.closingTime = closingTime;
-    }
+public record FixedScheduleRule(LocalTime openingTime, LocalTime closingTime) implements Rule {
 
     @Override
     public boolean isValid(Booking booking, Resource resource) {
