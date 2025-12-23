@@ -10,6 +10,10 @@ import java.util.logging.Logger;
 public class VirtualThreadServer {
     static Logger logger = Logger.getLogger(VirtualThreadServer.class.getName());
 
+    private VirtualThreadServer() {
+        throw new AssertionError("Utility class");
+    }
+
     public static void start() throws IOException {
         HttpServer server = HttpServer.create(new InetSocketAddress(8080), 0);
 

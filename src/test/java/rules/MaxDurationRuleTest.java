@@ -11,7 +11,7 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class MaxDurationRuleTest {
+class MaxDurationRuleTest {
     @Test
     void validBookingWithinMaxDuration() {
         var rule = new MaxDurationRule(60);

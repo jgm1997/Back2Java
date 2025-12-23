@@ -10,7 +10,7 @@ import java.time.LocalTime;
 import static es.jgm1997.rules.RuleProcessor.describe;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class RuleDemoTest {
+class RuleDemoTest {
     @Test
     void matchingSwitchPatternRuleDescription() {
         var rule1 = new FixedScheduleRule(LocalTime.of(9, 0), LocalTime.of(18, 0));

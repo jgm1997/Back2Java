@@ -10,7 +10,7 @@ import java.time.LocalTime;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class RuleProcessorTest {
+class RuleProcessorTest {
     @Test
     void correctDescriptionForEveryRule() {
         assertTrue(RuleProcessor.describe(

@@ -8,7 +8,7 @@ import java.time.LocalTime;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class ScheduleTest {
+class ScheduleTest {
     @Test
     void createValidSchedule() {
         var schedule = new Schedule(LocalTime.of(9, 0), LocalTime.of(18, 0), 30);
@@ -20,15 +20,22 @@ public class ScheduleTest {
 
     @Test
     void throwExceptionWhenEndBeforeStart() {
-        assertThrows(IllegalArgumentException.class, () ->
-                new Schedule(LocalTime.of(18, 0), LocalTime.of(9, 0), 30)
-        );
+        // Refactored to call a single helper method that may throw
+        assertThrows(IllegalArgumentException.class, this::createScheduleWithEndBeforeStart);
     }
 
     @Test
     void throwExceptionWhenDurationNegative() {
-        assertThrows(IllegalArgumentException.class, () ->
-                new Schedule(LocalTime.of(18, 0), LocalTime.of(9, 0), -30)
-        );
+        // Refactored to call a single helper method that may throw
+        assertThrows(IllegalArgumentException.class, this::createScheduleWithNegativeDuration);
+    }
+
+    // Helper methods extracted so the lambda contains a single invocation that can throw
+    private void createScheduleWithEndBeforeStart() {
+        new Schedule(LocalTime.of(18, 0), LocalTime.of(9, 0), 30);
+    }
+
+    private void createScheduleWithNegativeDuration() {
+        new Schedule(LocalTime.of(18, 0), LocalTime.of(9, 0), -30);
     }
 }

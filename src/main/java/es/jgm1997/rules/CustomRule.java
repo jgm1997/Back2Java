@@ -1,9 +1,9 @@
 package es.jgm1997.rules;
 
-public non-sealed abstract class CustomRule implements Rule {
+public abstract non-sealed class CustomRule implements Rule {
     private final String ruleName;
 
-    public CustomRule(String ruleName) {
+    CustomRule(String ruleName) {
         this.ruleName = ruleName;
     }
 

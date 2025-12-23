@@ -5,13 +5,17 @@ import java.util.List;
 import java.util.concurrent.*;
 
 public class VirtualThreadDemo {
+    private VirtualThreadDemo() {
+        // Use AssertionError for utility classes to indicate non-instantiability
+        throw new AssertionError("Utility class");
+    }
+
     public static long runWithVirtualThreads(int numberOfTasks) throws InterruptedException {
-        ExecutorService executorService = null;
         List<Future<?>> futures = new ArrayList<>();
         long start = System.currentTimeMillis();
 
-        try {
-            executorService = Executors.newVirtualThreadPerTaskExecutor();
+        // Use try-with-resources to ensure the executor is closed when possible
+        try (var executorService = Executors.newVirtualThreadPerTaskExecutor()) {
 
             for (int i = 0; i < numberOfTasks; i++) {
                 futures.add(executorService.submit(new VirtualReservationTask(i)));
@@ -21,24 +25,12 @@ public class VirtualThreadDemo {
                 try {
                     future.get();
                 } catch (ExecutionException e) {
-                    throw new RuntimeException(e);
+                    // Wrap with a more specific concurrent exception instead of a generic RuntimeException
+                    throw new CompletionException(e.getCause());
                 }
             }
 
             return System.currentTimeMillis() - start;
-        } finally {
-            if (executorService != null) {
-                executorService.shutdown();
-                try {
-                    if (!executorService.awaitTermination(1, TimeUnit.MINUTES)) {
-                        executorService.shutdownNow();
-                    }
-                } catch (InterruptedException e) {
-                    executorService.shutdownNow();
-                    Thread.currentThread().interrupt();
-                    throw e;
-                }
-            }
         }
     }
 }

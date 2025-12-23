@@ -5,10 +5,10 @@ public class RuleProcessor {
 
     public static String describe(Rule rule) {
         return switch (rule) {
-            case FixedScheduleRule fsr -> "Active from " + fsr.openingTime() + " to " + fsr.closingTime();
-            case MaxBookingsPerDayRule mbpdr -> "Maximum of " + mbpdr.maxBookingsPerDay() + " bookings per day";
+            case FixedScheduleRule(var openingTime, var closingTime) -> "Active from " + openingTime + " to " + closingTime;
+            case MaxBookingsPerDayRule(var maxBookingsPerDay) -> "Maximum of " + maxBookingsPerDay + " bookings per day";
             case OnlyWorkingDaysRule ignored -> "Only working days allowed";
-            case MaxDurationRule mdr -> "Maximum duration of " + mdr.getMaxDuration() + " minutes";
+            case MaxDurationRule(var maxDuration) -> "Maximum duration of " + maxDuration + " minutes";
             case ForbiddenUserRule fur -> "Forbidden user ID: " + fur.getForbiddenUsername();
             case CustomRule cr -> "Custom rule: " + cr.getRuleName();
         };

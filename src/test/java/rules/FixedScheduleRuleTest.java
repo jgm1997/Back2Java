@@ -12,7 +12,7 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class FixedScheduleRuleTest {
+class FixedScheduleRuleTest {
     @Test
     void validBookingSchedule() {
         var rule = new FixedScheduleRule(LocalTime.of(9, 0), LocalTime.of(18, 0));

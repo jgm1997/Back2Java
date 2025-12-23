@@ -3,9 +3,9 @@ package es.jgm1997.concurrency;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class ConcurrecnyBenchmark {
+public class ConcurrencyBenchmark {
     public static void main(String[] args) throws Exception {
-        Logger logger = Logger.getLogger(ConcurrecnyBenchmark.class.getName());
+        Logger logger = Logger.getLogger(ConcurrencyBenchmark.class.getName());
         int numberOfTasks = 1000;
 
         logger.info("Running classic fixed thread pool...");

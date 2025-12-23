@@ -2,22 +2,22 @@ package es.jgm1997.concurrency;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.*;
+import java.util.concurrent.CompletionException;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 public class ClassicConcurrencyDemo {
     private ClassicConcurrencyDemo() {
         throw new IllegalStateException("Utility class");
     }
+
     public static long runWithFixedThreadPool(int numberOfTasks, int poolSize) throws InterruptedException {
-        ExecutorService executor = null;
         List<Future<?>> futures = new ArrayList<>();
         long start = System.currentTimeMillis();
-        InterruptedException interrupted = null;
         long elapsed;
 
-        try {
-            executor = Executors.newFixedThreadPool(poolSize);
-
+        try (var executor = Executors.newFixedThreadPool(poolSize)) {
             for (int i = 0; i < numberOfTasks; i++) {
                 futures.add(executor.submit(new ReservationTask(i)));
             }
@@ -26,29 +26,14 @@ public class ClassicConcurrencyDemo {
                 try {
                     future.get();
                 } catch (ExecutionException e) {
-                    throw new RuntimeException(e);
+                    // Wrap with a more specific concurrent exception instead of a generic RuntimeException
+                    throw new CompletionException(e.getCause());
                 }
             }
 
             elapsed = System.currentTimeMillis() - start;
-        } finally {
-            if (executor != null) {
-                executor.shutdown();
-                try {
-                    if (!executor.awaitTermination(1, TimeUnit.MINUTES)) {
-                        executor.shutdownNow();
-                    }
-                } catch (InterruptedException e) {
-                    executor.shutdownNow();
-                    Thread.currentThread().interrupt();
-                    interrupted = e;
-                }
-            }
         }
 
-        if (interrupted != null) {
-            throw interrupted;
-        }
         return elapsed;
     }
 }

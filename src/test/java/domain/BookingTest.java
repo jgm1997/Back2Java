@@ -10,7 +10,7 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class BookingTest {
+class BookingTest {
 
     @Test
     void createValidBooking() {
@@ -31,15 +31,8 @@ public class BookingTest {
 
     @Test
     void throwExceptionWhenNullResource() {
-        assertThrows(IllegalArgumentException.class, () ->
-                new Booking(
-                        UUID.randomUUID(),
-                        null,
-                        LocalDateTime.now(),
-                        LocalDateTime.now().plusHours(1),
-                        "javier"
-                )
-        );
+        // Refactored to call a single helper method that may throw
+        assertThrows(IllegalArgumentException.class, this::createBookingWithNullResource);
 
     }
 
@@ -47,15 +40,30 @@ public class BookingTest {
     void throwExceptionWhenEndBeforeStart() {
         var resource = new Resource(UUID.randomUUID(), "Pista 1", "PISTA", true);
 
-        assertThrows(IllegalArgumentException.class, () ->
-                new Booking(
-                        UUID.randomUUID(),
-                        resource,
-                        LocalDateTime.now().plusHours(1),
-                        LocalDateTime.now(),
-                        "javier"
-                )
-        );
+        // Refactored to call a single helper method that may throw
+        // The helper uses the same resource instance captured above
+        assertThrows(IllegalArgumentException.class, () -> createBookingWithEndBeforeStart(resource));
 
+    }
+
+    // Helper methods extracted so the lambda contains a single invocation that can throw
+    private void createBookingWithNullResource() {
+        new Booking(
+                UUID.randomUUID(),
+                null,
+                LocalDateTime.now(),
+                LocalDateTime.now().plusHours(1),
+                "javier"
+        );
+    }
+
+    private void createBookingWithEndBeforeStart(Resource resource) {
+        new Booking(
+                UUID.randomUUID(),
+                resource,
+                LocalDateTime.now().plusHours(1),
+                LocalDateTime.now(),
+                "javier"
+        );
     }
 }
