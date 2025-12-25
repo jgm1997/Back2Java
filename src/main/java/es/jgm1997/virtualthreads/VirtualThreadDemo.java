@@ -25,7 +25,8 @@ public class VirtualThreadDemo {
                 try {
                     future.get();
                 } catch (ExecutionException e) {
-                    // Wrap with a more specific concurrent exception instead of a generic RuntimeException
+                    // Wrap with a more specific concurrent exception instead of a generic
+                    // RuntimeException
                     throw new CompletionException(e.getCause());
                 }
             }

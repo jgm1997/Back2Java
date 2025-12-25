@@ -15,7 +15,6 @@ public class ClassicConcurrencyDemo {
     public static long runWithFixedThreadPool(int numberOfTasks, int poolSize) throws InterruptedException {
         List<Future<?>> futures = new ArrayList<>();
         long start = System.currentTimeMillis();
-        long elapsed;
 
         try (var executor = Executors.newFixedThreadPool(poolSize)) {
             for (int i = 0; i < numberOfTasks; i++) {
@@ -26,14 +25,13 @@ public class ClassicConcurrencyDemo {
                 try {
                     future.get();
                 } catch (ExecutionException e) {
-                    // Wrap with a more specific concurrent exception instead of a generic RuntimeException
+                    // Wrap with a more specific concurrent exception instead of a generic
+                    // RuntimeException
                     throw new CompletionException(e.getCause());
                 }
             }
 
-            elapsed = System.currentTimeMillis() - start;
+            return System.currentTimeMillis() - start;
         }
-
-        return elapsed;
     }
 }
