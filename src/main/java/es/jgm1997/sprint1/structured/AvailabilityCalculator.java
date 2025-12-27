@@ -12,6 +12,7 @@ public class AvailabilityCalculator {
             List<String> holidays) {
     }
 
+    @SuppressWarnings("preview")
     public static AvailabilityResult calculate(LocalDate date) throws InterruptedException, ExecutionException {
 
         try (var scope = new StructuredTaskScope.ShutdownOnFailure()) {

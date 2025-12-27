@@ -13,12 +13,15 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.StructuredTaskScope;
 
 public class AvailabilityEngine {
+    private AvailabilityEngine() {
+    }
+
+    @SuppressWarnings("preview")
     public static AvailabilityResult calculateAvailability(
             LocalDate date,
             Resource resource,
             Schedule schedule,
-            List<Rule> rules
-    ) throws InterruptedException, ExecutionException {
+            List<Rule> rules) throws InterruptedException, ExecutionException {
         try (var scope = new StructuredTaskScope.ShutdownOnFailure()) {
             var rulesFuture = scope.fork(() -> rules);
             var bookingsFuture = scope.fork(() -> {
@@ -42,8 +45,7 @@ public class AvailabilityEngine {
                     availableSlots,
                     fetchedRules.stream().map(Object::toString).toList(),
                     bookings.stream().map(Object::toString).toList(),
-                    holidays
-            );
+                    holidays);
         }
     }
 }

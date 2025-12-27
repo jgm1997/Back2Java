@@ -8,6 +8,7 @@ public class StructuredConcurrencyDemo {
         throw new AssertionError("Utility class");
     }
 
+    @SuppressWarnings("preview")
     public static int runTasks() throws InterruptedException, ExecutionException {
 
         try (var scope = new StructuredTaskScope.ShutdownOnFailure()) {
